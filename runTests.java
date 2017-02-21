@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import org.junit.runner.*;
 import org.junit.runner.notification.*;
 
-public class testCode {
+public class runTests {
     public static void main(String[] args) {
 
 	ArrayList<Class> classesToTest = new ArrayList<Class>();
@@ -11,7 +11,7 @@ public class testCode {
 
 
 
-	classesToTest.add(simCityTest.class);
+	classesToTest.add(SimCity9004Test.class);
 	// For all test classes added, loop through and use JUnit
 	// to run them.
 

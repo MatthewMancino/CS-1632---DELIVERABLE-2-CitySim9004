@@ -1,15 +1,15 @@
 //Driver for main program regarding SimCity9004
 import java.util.*;
 
-public class SimCity9004
-{
+public class SimCity9004{
 
-	public static void main(String [] args)
-	{
-		try
+	public static void main(String [] args){
+		int d = checkInput(args[0]);
+		if (d == -2)
 		{
-		int rand = Integer.parseInt(args[0]);
-		Random randy = new Random(rand);
+			return;
+		}
+		Random randy = new Random(d);
 		City Oakland = new City();
 
 
@@ -40,18 +40,24 @@ public class SimCity9004
 		E.laboonVisits();
 		System.out.println(SimCity9004.dashes());
 	}
-	catch(Exception e)
-	{
-		returnCode(1);
-	}
 
-		returnCode(0);
-
-	}
 	public static String dashes(){
 		return "----->";
 	}
-	public static int returnCode(int num){
-		return num;
+	public static int checkInput(String inline)
+	{
+		int rand = 0;
+		try{
+			rand = Integer.parseInt(inline);
+		}
+		catch(Exception e){
+			System.out.println("Command line was not a number");
+			return -2;
+		}
+		if(rand < 0){
+			System.out.println("Command line was a negative number");
+			return -2;
+		}
+		return rand;
 	}
 }

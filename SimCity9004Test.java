@@ -5,22 +5,21 @@ import org.mockito.*;
 import org.mockito.Mockito.*;
 import java.util.*;
 
-public class simCityTest{
+public class SimCity9004Test{
 
+	@Test //#1 - tests that laboonVisits will display nothing
+	public void testUnderSenVisits(){
+		Driver here = new Driver("B");
+		here.setSenn(0);
+		assertEquals(here.laboonVisits(),0);
+	}
 
-	//test #1 0 tests the happy path that nothing will be displayed
+	//test #2 tests the happy path that nothing will be displayed
 	@Test
 	public void testSennottVisits(){
 		Driver here = new Driver("A");
 		here.setSenn(2);
 		assertEquals(here.laboonVisits(),1);
-	}
-
-	@Test //#2 - tests that laboonVisits will display nothing
-	public void testUnderSenVisits(){
-		Driver here = new Driver("B");
-		here.setSenn(0);
-		assertEquals(here.laboonVisits(),0);
 	}
 
 	@Test //#3
@@ -30,17 +29,7 @@ public class simCityTest{
 		assertEquals(here.laboonVisits(),2);
 	}
 
-
-	//#4 tests the instantiation and completion of the "Happy path"
-	@Test
-	public void testsMain(){
-		//SimCity9004.main((String [])"500");
-		//Mockito.assertEqual();
-	}
-
-
-
-	//Test#5 - tests whether the program will correctly display that you have left outside of philadelphia
+	//Test#4 - tests whether the program will correctly display that you have left outside of philadelphia
 	@Test
 	public void testOutsidePhiladelphia(){
 
@@ -50,7 +39,8 @@ public class simCityTest{
 		Driver mockDriver = Mockito.mock(Driver.class);
 
 		Mockito.when(mockDriver.currentLocation()).thenReturn(new Location("Union",3));
-		Mockito.when(mockRandom.nextInt()).thenReturn(4);
+		Mockito.when(mockRandom.nextInt()).thenReturn(3); //Passing in an even number to go directly to Philly!
+		mockDriver.setCurrLoc(new Location("Union",3));
 		String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
 		if (test.equals("Outside"))
 		{
@@ -61,7 +51,7 @@ public class simCityTest{
 
 	}
 
-	//TEST #6 - tests to see if person lands outside cleveland
+	//TEST #5 - Tests what happens when a person goes from Sennott to Outside
 	@Test
 	public void testOutsideCleveland(){
 		int d;
@@ -70,7 +60,7 @@ public class simCityTest{
 		Driver mockDriver = Mockito.mock(Driver.class);
 
 		Mockito.when(mockDriver.currentLocation()).thenReturn(new Location("Sennott",2));
-		Mockito.when(mockRandom.nextInt()).thenReturn(4);
+		Mockito.when(mockRandom.nextInt()).thenReturn(3); //An even number needs to be passed here in due to selection mechanism
 		String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
 		System.out.println(test);
 		if (test.equals("Outside"))
@@ -83,7 +73,7 @@ public class simCityTest{
 		assertEquals(d,1);
 
 	}
-	//TEST #7 - Tests that you can go from Presby to Union
+	//TEST #7 - Tests that you can go from Presby to Union!
 	@Test
 	public void testFifthAvePresby(){
 		int d;
@@ -117,7 +107,7 @@ public class simCityTest{
 		Mockito.when(mockRandom.nextInt()).thenReturn(1);
 
 		String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
-		if (test.equals(null))
+		if (!test.equals("Presby"))
 		{
 			d = 1;
 		}
@@ -127,7 +117,7 @@ public class simCityTest{
 		assertEquals(d,1);
 	}
 
-	//Test #9 tests that Bill Ave can correcly be traversed between Presby and Sennott Square
+	//Test #9 Tests that you can go from Presby to Sennott via Bill Ave
 	@Test
 	public void testBillAve(){
 		int d;
@@ -147,7 +137,7 @@ public class simCityTest{
 		}
 		assertEquals(d,1);
 	}
-	//#10
+	//#10 Same as above except going from Sennott to Presby
 	@Test
 	public void testBillAve2(){
 		int d;
@@ -156,7 +146,7 @@ public class simCityTest{
 		Random mockRandom = Mockito.mock(Random.class);
 
 		Mockito.when(mockDriver.currentLocation()).thenReturn(new Location("Sennott",2));
-		Mockito.when(mockRandom.nextInt()).thenReturn(1);
+		Mockito.when(mockRandom.nextInt()).thenReturn(2);
 		String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
 		if (test.equals("Presby"))
 		{
@@ -168,7 +158,7 @@ public class simCityTest{
 		assertEquals(d,1);
 
 	}
-	//Test #11 tests that Phil Ave can correctly be traversed between Hillman and the Union
+	//Test #11 Tests that you can go from Union to Hillman via Phil Ave
 	@Test
 	public void testPhilAveUniontoHillman(){
 		int d;
@@ -189,7 +179,7 @@ public class simCityTest{
 		assertEquals(d,1);
 
 	}
-	//#12
+	//#12 Tests that you can go from Hillman to Union via Phil Ave
 	@Test
 	public void testPhilAveHillmantoUnion(){
 		int d;
@@ -200,7 +190,7 @@ public class simCityTest{
 		Mockito.when(mockDriver.currentLocation()).thenReturn(new Location("Hillman",0));
 		Mockito.when(mockRandom.nextInt()).thenReturn(3);
 		String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
-		if (test.equals("Hillman"))
+		if (test.equals("Union"))
 		{
 			d = 1;
 		}
@@ -232,7 +222,7 @@ public class simCityTest{
 			assertEquals(d,1);
 		}
 
-		//Test #14 - Testing that you can't go back to Hillman from Sennott in a car
+		//Test #14 - Testing that you CAN'T go back to Hillman from Sennott in a car
 		@Test
 		public void testFourthAveSennott(){
 			int d;
@@ -243,7 +233,7 @@ public class simCityTest{
 			Mockito.when(mockDriver.currentLocation()).thenReturn(new Location("Sennott",2));
 			Mockito.when(mockRandom.nextInt()).thenReturn(0);
 			String test = Oakland.beginDrive(mockDriver,-1,mockRandom);
-			if (test.equals(null))
+			if (!test.equals("Hillman"))
 			{
 				d = 1;
 			}
@@ -255,21 +245,19 @@ public class simCityTest{
 		//TEST #15 - Tests normal function Mockito.when entering a regular number
 		@Test
 		public void testCommandLineRegularNumber(){
-			String [] ags = new String[1];
-			ags[0] = "20";
-			SimCity9004.main(ags);
-			int returncode = SimCity9004.returnCode(0);
-			assertEquals(returncode,0);
-
+			int d = SimCity9004.checkInput("20");
+			assertEquals(d,20);
 		}
 		//Test #16 - Tests what happens Mockito.when a negative number is passed in
 		@Test
 		public void testCommandLineNegativeNumber(){
-			String [] ags = new String[1];
-			ags[0] = "-5";
-			SimCity9004.main(ags);
-			int returncode = SimCity9004.returnCode(0);
-			assertEquals(returncode,0);
+			int d = SimCity9004.checkInput("-5");
+			assertEquals(d,-2);
+		}
+		@Test
+		public void testCommandLineString(){
+			int d = SimCity9004.checkInput("doggie");
+			assertEquals(d,-2);
 		}
 
 		//Test #17 - Tests the production of dashes;
@@ -301,6 +289,7 @@ public class simCityTest{
 		}
 
 		//There is no variable input on this test so it is just making sure that the instantion of the locations and the setting up of the availibility matrix was a success
+
 		@Test
 		public void testPopulateMatrix()
 		{
