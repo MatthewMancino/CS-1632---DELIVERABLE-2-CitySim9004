@@ -18,7 +18,7 @@ public class City
 		this.createLocations();
 		this.populateMatrix();
 	}
-	public int createLocations()
+	private int createLocations()
 	{
 		pLocations = new ArrayList<Location>();
 		roads = new ArrayList<Road>();
@@ -36,7 +36,7 @@ public class City
 		return 1; //successful creation;
 
 	}
-	public int populateMatrix()
+	private int populateMatrix()
 	{
 		for (int j = 0; j < 5; j++)
 		{
@@ -153,7 +153,7 @@ public class City
 
 
 
-	public Location travelTo(int travel,Location cLoc)
+	private Location travelTo(int travel,Location cLoc)
 	{
 		//if the number is odd, the driver will travel to the location's 0 spot
 		//if the number is even, the driver will travel to the location's 1 spot
